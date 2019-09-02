@@ -1,0 +1,18 @@
+// 実行コマンド
+// protoc --proto_path ./proto --go_out=plugins=grpc:./pb search_api.proto
+syntax = "proto3";
+
+package search;
+
+message SearchRequest {
+    string query = 1;
+}
+
+message SearchResponse {
+    repeated string a = 2;
+}
+
+service SearchService {
+    rpc Search (SearchRequest)
+    returns (SearchResponse);
+}
