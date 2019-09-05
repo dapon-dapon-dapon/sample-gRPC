@@ -1,0 +1,95 @@
+version: '3'
+services:
+  common:
+    build:
+      context: ./
+      dockerfile: ./docker/common/Dockerfile
+    image: grpcweb/common
+  prereqs:
+    build:
+      context: ./
+      dockerfile: ./docker/prereqs/Dockerfile
+    depends_on:
+      - common
+    image: grpcweb/prereqs
+  search-server:
+    build:
+      context: ./
+      dockerfile: ./docker/server/Dockerfile
+    depends_on:
+      - prereqs
+    ports:
+      - "9090:9090"
+#  node-server:
+#    build:
+#      context: ./
+#      dockerfile: ./docker/node_server/Dockerfile
+#    depends_on:
+#      - common
+#    image: grpcweb/node-server
+#    ports:
+#      - "9090:9090"
+#  envoy:
+#    build:
+#      context: ./
+#      dockerfile: ./docker/envoy/Dockerfile
+#    image: grpcweb/envoy
+#    ports:
+#      - "8080:8080"
+#    links:
+#      - node-server
+  nginx:
+    build:
+      context: ./
+      dockerfile: ./docker/nginx/Dockerfile
+    depends_on:
+      - prereqs
+    image: grpcweb/nginx
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./proxy/nginx/nginx.conf:/etc/nginx/common
+      - ./proxy/keys:/ssl
+  grpcwebproxy:
+    build:
+      context: ./
+      dockerfile: ./docker/grpcwebproxy/Dockerfile
+    image: grpcweb/grpcwebproxy
+    ports:
+      - "8080:8080"
+  commonjs-client:
+    build:
+      context: ./
+      dockerfile: ./docker/commonjs_client/Dockerfile
+    depends_on:
+      - common
+    image: grpcweb/commonjs-client
+    ports:
+      - "8081:8081"
+  closure-client:
+    build:
+      context: ./
+      dockerfile: ./docker/closure_client/Dockerfile
+    depends_on:
+      - prereqs
+    image: grpcweb/closure-client
+    ports:
+      - "8081:8081"
+#  ts-client:
+#    build:
+#      context: ./
+#      dockerfile: ./docker/ts_client/Dockerfile
+#    depends_on:
+#      - prereqs
+#    image: grpcweb/ts-client
+#    ports:
+#      - "8081:8081"
+  binary-client:
+    build:
+      context: ./
+      dockerfile: ./docker/binary_client/Dockerfile
+    depends_on:
+      - prereqs
+    image: grpcweb/binary-client
+    ports:
+      - "8081:8081"

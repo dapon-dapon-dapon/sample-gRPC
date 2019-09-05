@@ -3,6 +3,7 @@ package main
 import (
 	pb "../pb"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
 )
@@ -29,7 +30,8 @@ func main()  {
 
 	server := grpc.NewServer()
 	service := &searchService{}
-
+	// Register reflection service on gRPC server.
+	reflection.Register(server)
 	pb.RegisterSearchServiceServer(server, service)
 	_ = server.Serve(listen)
 }

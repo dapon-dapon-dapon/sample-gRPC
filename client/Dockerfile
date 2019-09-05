@@ -9,4 +9,4 @@ RUN yarn build
 
 FROM nginx:1.15-alpine
 COPY --from=builder /app/build /usr/share/nginx/html
-EXPOSE 80
+EXPOSE 5555
