@@ -21,8 +21,6 @@ COPY . /github/grpc-web
 RUN cd /github/grpc-web && \
   git checkout . && \
   git clean -f -d -x && \
-  rm -rf third_party && \
-  git checkout third_party && \
   ./scripts/init_submodules.sh
 
 RUN cd /github/grpc-web/packages/grpc-web && \

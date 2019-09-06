@@ -39,14 +39,14 @@ services:
 #    links:
 #      - node-server
   nginx:
-    build:
-      context: ./
-      dockerfile: ./docker/nginx/Dockerfile
-    depends_on:
-      - prereqs
-    image: grpcweb/nginx
+#    build:
+#      context: ./
+#      dockerfile: ./docker/nginx/Dockerfile
+    image: nginx:1.15.6-alpine
     ports:
       - "8080:8080"
+    expose:
+      - "8080"
     volumes:
       - ./proxy/nginx/nginx.conf:/etc/nginx/common
       - ./proxy/keys:/ssl

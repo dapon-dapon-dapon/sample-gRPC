@@ -11,7 +11,7 @@ import (
 
 // 実行:go run client/main.go
 func main()  {
-	connection, err := grpc.Dial("localhost:5555", grpc.WithInsecure())
+	connection, err := grpc.Dial("localhost:8080", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalln(err)
 	}
